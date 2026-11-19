@@ -1,5 +1,11 @@
 # 検索順位チェック Pro
 
+[![有料製品・BOOTHで販売](https://img.shields.io/badge/Product-Paid%20%2F%20BOOTH-orange)](LICENSE)
+[![対応OS：macOS・Linux](https://img.shields.io/badge/OS-macOS%20%7C%20Linux-blue)](#必要な環境と初回設定)
+[![取得データ：GSC平均掲載順位](https://img.shields.io/badge/Data-GSC%20Average%20Position-blue)](#取得する順位とデータの制約)
+[![初回にGoogle Cloud・Search Consoleの設定が必要](https://img.shields.io/badge/Setup-Google%20Cloud%20%2B%20GSC%20required-yellow)](#必要な環境と初回設定)
+[![商用利用可：利用条件あり](https://img.shields.io/badge/Commercial%20use-Allowed-green)](LICENSE)
+
 Google Search Console のデータを使って、指定したキーワードの検索順位を日々記録し、ブラウザのグラフで確認するためのツールです。
 
 一度設定しておくと、サイトごと・キーワードごとの順位をローカルファイルに保存できます。実行後にはHTMLレポートをブラウザで開き、順位推移の折れ線グラフ、前回比、`UP` / `DOWN` / `NA` などを確認できます。ExcelやGoogleスプレッドシートで見られるCSVも出力できます。
