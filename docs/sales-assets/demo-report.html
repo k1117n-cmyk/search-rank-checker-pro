@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>検索順位レポート 2026-10-12</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #161819;
+      --panel: #202426;
+      --panel-soft: #252a2d;
+      --text: #e7ece9;
+      --muted: #9aa6a3;
+      --line: #384044;
+      --grid: #30373b;
+      --accent: #5eead4;
+      --good: #86efac;
+      --bad: #fca5a5;
+      --same: #b6c2bf;
+      --na: #facc15;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+    header, main {
+      width: min(1180px, calc(100vw - 32px));
+      margin: 0 auto;
+    }
+    header {
+      padding: 28px 0 18px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: 0;
+    }
+    .meta {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+      margin: 14px 0 18px;
+    }
+    .metric {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+    }
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .metric strong {
+      display: block;
+      margin-top: 2px;
+      font-size: 24px;
+    }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    select, button {
+      min-height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--panel);
+      color: var(--text);
+      padding: 0 10px;
+      font: inherit;
+    }
+    button {
+      cursor: pointer;
+    }
+    button.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .chart-panel, .table-panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .help-panel {
+      margin: 0 0 16px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .help-panel summary {
+      cursor: pointer;
+      padding: 12px 14px;
+      color: var(--text);
+      font-weight: 700;
+    }
+    .help-body {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+      padding: 0 14px 14px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .help-body h2 {
+      margin: 0 0 6px;
+      color: var(--text);
+      font-size: 15px;
+      letter-spacing: 0;
+    }
+    .help-body p {
+      margin: 0;
+    }
+    .help-body code {
+      color: var(--accent);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 13px;
+    }
+    #chart {
+      display: block;
+      width: 100%;
+      min-height: 430px;
+    }
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+      padding: 12px 14px 16px;
+      border-top: 1px solid var(--line);
+      font-size: 13px;
+    }
+    .legend-item {
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+      max-width: 280px;
+    }
+    .swatch {
+      width: 18px;
+      height: 3px;
+      border-radius: 999px;
+      flex: 0 0 auto;
+    }
+    .table-panel {
+      margin: 16px 0 28px;
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 780px;
+      font-size: 14px;
+    }
+    th, td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+      white-space: nowrap;
+    }
+    th {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      background: var(--panel-soft);
+    }
+    td.query {
+      white-space: normal;
+      min-width: 260px;
+    }
+    .status-UP { color: var(--good); font-weight: 700; }
+    .status-DOWN { color: var(--bad); font-weight: 700; }
+    .status-SAME { color: var(--same); font-weight: 700; }
+    .status-NA { color: var(--na); font-weight: 700; }
+    @media (max-width: 720px) {
+      header, main { width: min(100vw - 20px, 1180px); }
+      h1 { font-size: 22px; }
+      #chart { min-height: 360px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>検索順位レポート</h1>
+    <div class="meta">対象日: 2026-10-12 / 対象: 日本からのウェブ検索 / 生成: 2026-10-16 20:35:14</div>
+  </header>
+  <main>
+    <section class="summary" id="summary"></section>
+    <div class="toolbar">
+      <select id="siteSelect" aria-label="サイト"></select>
+      <button type="button" class="range active" data-days="30">30日</button>
+      <button type="button" class="range" data-days="90">90日</button>
+      <button type="button" class="range" data-days="0">全期間</button>
+    </div>
+    <details class="help-panel">
+      <summary>このレポートの読み方</summary>
+      <div class="help-body">
+        <section>
+          <h2>順位</h2>
+          <p>日本からのウェブ検索について、Google Search Console API が返す平均掲載順位です。数値が小さいほど上位で、グラフも上側ほど良い順位として表示します。</p>
+        </section>
+        <section>
+          <h2>前回比</h2>
+          <p><code>前回順位 - 今回順位</code> で計算します。プラスなら改善、マイナスなら下落です。</p>
+        </section>
+        <section>
+          <h2>NA</h2>
+          <p>対象日のAPI結果にそのキーワードの行がない状態です。表示なし、少数クエリの省略、取得上限などで起こります。表示回数ゼロを意味するとは限りません。</p>
+        </section>
+        <section>
+          <h2>見るときのコツ</h2>
+          <p>1日だけのNAや順位変動は揺れの可能性があります。数日続く変化は、検索結果に出る回数や順位の傾向として見てください。</p>
+        </section>
+      </div>
+    </details>
+    <section class="chart-panel">
+      <svg id="chart" role="img" aria-label="キーワード別の順位推移グラフ"></svg>
+      <div class="legend" id="legend"></div>
+    </section>
+    <section class="table-panel">
+      <table>
+        <thead>
+          <tr>
+            <th>順位</th>
+            <th>前回</th>
+            <th>前回比</th>
+            <th>状態</th>
+            <th>キーワード</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </section>
+  </main>
+  <script id="history-data" type="application/json">[
+  {
+    "date": "2026-09-29",
+    "site": "https://example.com/",
+    "query": "サンプル キーワード A",
+    "position": "4.2"
+  },
+  {
+    "date": "2026-10-02",
+    "site": "https://example.com/",
+    "query": "サンプル キーワード A",
+    "position": "3.8"
+  },
+  {
+    "date": "2026-10-05",
+    "site": "https://example.com/",
+    "query": "サンプル キーワード A",
+    "position": "3.2"
+  },
+  {
+    "date": "2026-10-09",
+    "site": "https://example.com/",
+    "query": "サンプル キーワード A",
+    "position": "2.6"
+  },
+  {
+    "date": "2026-10-12",
+    "site": "https://example.com/",
+    "query": "サンプル キーワード A",
+    "position": "2.1"
+  },
+  {
+    "date": "2026-09-29",
+    "site": "https://example.com/",
+    "query": "サンプル キーワード B",
+    "position": "6.0"
+  },
+  {
+    "date": "2026-10-02",
+    "site": "https://example.com/",
+    "query": "サンプル キーワード B",
+    "position": "5.8"
+  },
+  {
+    "date": "2026-10-05",
+    "site": "https://example.com/",
+    "query": "サンプル キーワード B",
+    "position": "4.4"
+  },
+  {
+    "date": "2026-10-09",
+    "site": "https://example.com/",
+    "query": "サンプル キーワード B",
+    "position": "4.8"
+  },
+  {
+    "date": "2026-10-12",
+    "site": "https://example.com/",
+    "query": "サンプル キーワード B",
+    "position": "5.1"
+  },
+  {
+    "date": "2026-09-29",
+    "site": "https://example.com/",
+    "query": "サンプル キーワード C",
+    "position": "8.0"
+  },
+  {
+    "date": "2026-10-02",
+    "site": "https://example.com/",
+    "query": "サンプル キーワード C",
+    "position": "7.3"
+  },
+  {
+    "date": "2026-10-05",
+    "site": "https://example.com/",
+    "query": "サンプル キーワード C",
+    "position": "6.8"
+  },
+  {
+    "date": "2026-10-09",
+    "site": "https://example.com/",
+    "query": "サンプル キーワード C",
+    "position": "6.2"
+  },
+  {
+    "date": "2026-10-12",
+    "site": "https://example.com/",
+    "query": "サンプル キーワード C",
+    "position": "6.0"
+  }
+]</script>
+  <script id="comparison-data" type="application/json">[
+  {
+    "date": "2026-10-12",
+    "site": "https://example.com/",
+    "query": "サンプル キーワード A",
+    "position": "2.1",
+    "previous_date": "2026-10-09",
+    "previous_position": "2.6",
+    "change": "0.50",
+    "status": "UP"
+  },
+  {
+    "date": "2026-10-12",
+    "site": "https://example.com/",
+    "query": "サンプル キーワード B",
+    "position": "5.1",
+    "previous_date": "2026-10-09",
+    "previous_position": "4.8",
+    "change": "-0.30",
+    "status": "DOWN"
+  },
+  {
+    "date": "2026-10-12",
+    "site": "https://example.com/",
+    "query": "サンプル キーワード C",
+    "position": "6.0",
+    "previous_date": "2026-10-09",
+    "previous_position": "6.2",
+    "change": "0.20",
+    "status": "UP"
+  },
+  {
+    "date": "2026-10-12",
+    "site": "https://example.com/",
+    "query": "サンプル キーワード D",
+    "position": "NA",
+    "previous_date": "-",
+    "previous_position": "-",
+    "change": "-",
+    "status": "NA"
+  }
+]</script>
+  <script>
+    const historyRows = JSON.parse(document.getElementById('history-data').textContent);
+    const comparisonRows = JSON.parse(document.getElementById('comparison-data').textContent);
+    const colors = ['#5eead4', '#93c5fd', '#fbbf24', '#c4b5fd', '#fda4af', '#86efac', '#f0abfc', '#7dd3fc', '#fdba74', '#d9f99d'];
+    const siteSelect = document.getElementById('siteSelect');
+    const chart = document.getElementById('chart');
+    const legend = document.getElementById('legend');
+    const summary = document.getElementById('summary');
+    const rowsBody = document.getElementById('rows');
+    let rangeDays = 30;
+
+    function isNumber(value) {
+      return /^-?[0-9]+(\.[0-9]+)?$/.test(value);
+    }
+
+    function formatPosition(value) {
+      return isNumber(value) ? Number(value).toFixed(2) : value;
+    }
+
+    function formatChange(value) {
+      if (!isNumber(value)) return value;
+      const number = Number(value);
+      return (number > 0 ? '+' : '') + number.toFixed(2);
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, char => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[char]));
+    }
+
+    function unique(values) {
+      return [...new Set(values)];
+    }
+
+    function setupSites() {
+      const sites = unique(comparisonRows.map(row => row.site));
+      siteSelect.innerHTML = sites.map(site => `<option value="${escapeHtml(site)}">${escapeHtml(site)}</option>`).join('');
+    }
+
+    function renderSummary(site) {
+      const rows = comparisonRows.filter(row => row.site === site);
+      const counts = rows.reduce((acc, row) => {
+        acc[row.status] = (acc[row.status] || 0) + 1;
+        return acc;
+      }, {});
+      const metrics = [
+        ['合計', rows.length],
+        ['UP', counts.UP || 0],
+        ['DOWN', counts.DOWN || 0],
+        ['SAME', counts.SAME || 0],
+        ['NA', counts.NA || 0]
+      ];
+      summary.innerHTML = metrics.map(([label, value]) => (
+        `<div class="metric"><span>${label}</span><strong>${value}</strong></div>`
+      )).join('');
+    }
+
+    function renderTable(site) {
+      const rankValue = row => isNumber(row.position) ? Number(row.position) : 1000000;
+      const rows = comparisonRows
+        .filter(row => row.site === site)
+        .sort((a, b) => rankValue(a) - rankValue(b));
+      rowsBody.innerHTML = rows.map(row => {
+        const previous = row.previous_date === '-'
+          ? formatPosition(row.previous_position)
+          : `${formatPosition(row.previous_position)} (${escapeHtml(row.previous_date)})`;
+        return `<tr>
+          <td>${escapeHtml(formatPosition(row.position))}</td>
+          <td>${escapeHtml(previous)}</td>
+          <td>${escapeHtml(formatChange(row.change))}</td>
+          <td class="status-${escapeHtml(row.status)}">${escapeHtml(row.status)}</td>
+          <td class="query">${escapeHtml(row.query)}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    function getChartSeries(site) {
+      const currentRows = comparisonRows.filter(row => row.site === site);
+      const visibleQueries = currentRows
+        .filter(row => isNumber(row.position))
+        .sort((a, b) => Number(a.position) - Number(b.position))
+        .slice(0, 10)
+        .map(row => row.query);
+      const fallbackQueries = currentRows.slice(0, 10).map(row => row.query);
+      const queries = visibleQueries.length > 0 ? visibleQueries : fallbackQueries;
+      let rows = historyRows.filter(row => row.site === site && queries.includes(row.query) && isNumber(row.position));
+      if (rangeDays > 0 && rows.length > 0) {
+        const latest = rows.reduce((max, row) => row.date > max ? row.date : max, rows[0].date);
+        const start = new Date(latest + 'T00:00:00');
+        start.setDate(start.getDate() - rangeDays + 1);
+        const startText = start.toISOString().slice(0, 10);
+        rows = rows.filter(row => row.date >= startText);
+      }
+      return queries.map((query, index) => ({
+        query,
+        color: colors[index % colors.length],
+        points: rows
+          .filter(row => row.query === query)
+          .sort((a, b) => a.date.localeCompare(b.date))
+          .map(row => ({ date: row.date, position: Number(row.position) }))
+      })).filter(series => series.points.length > 0);
+    }
+
+    function renderChart(site) {
+      const width = chart.clientWidth || 1000;
+      const height = Math.max(chart.clientHeight || 430, 320);
+      const margin = { top: 24, right: 24, bottom: 58, left: 58 };
+      chart.setAttribute('viewBox', `0 0 ${width} ${height}`);
+      chart.innerHTML = '';
+      const series = getChartSeries(site);
+      legend.innerHTML = '';
+      if (series.length === 0) {
+        chart.innerHTML = `<text x="${width / 2}" y="${height / 2}" text-anchor="middle" fill="#9aa6a3">グラフ化できる順位データがありません</text>`;
+        return;
+      }
+      const dates = unique(series.flatMap(item => item.points.map(point => point.date))).sort();
+      const positions = series.flatMap(item => item.points.map(point => point.position));
+      const minRank = Math.max(1, Math.floor(Math.min(...positions)));
+      const maxRank = Math.ceil(Math.max(...positions));
+      const plotW = width - margin.left - margin.right;
+      const plotH = height - margin.top - margin.bottom;
+      const x = date => margin.left + (dates.length === 1 ? plotW / 2 : dates.indexOf(date) * plotW / (dates.length - 1));
+      const y = rank => margin.top + (rank - minRank) * plotH / Math.max(1, maxRank - minRank);
+      const svg = [];
+      const gridCount = Math.min(6, Math.max(2, maxRank - minRank + 1));
+      for (let i = 0; i < gridCount; i++) {
+        const rank = minRank + (maxRank - minRank) * i / Math.max(1, gridCount - 1);
+        const yy = y(rank);
+        svg.push(`<line x1="${margin.left}" y1="${yy}" x2="${width - margin.right}" y2="${yy}" stroke="#30373b"/>`);
+        svg.push(`<text x="${margin.left - 10}" y="${yy + 4}" text-anchor="end" fill="#9aa6a3" font-size="12">${rank.toFixed(rank % 1 === 0 ? 0 : 1)}</text>`);
+      }
+      dates.forEach((date, index) => {
+        if (index % Math.ceil(dates.length / 6) === 0 || index === dates.length - 1) {
+          const xx = x(date);
+          svg.push(`<text x="${xx}" y="${height - 24}" text-anchor="middle" fill="#9aa6a3" font-size="12">${date.slice(5)}</text>`);
+        }
+      });
+      svg.push(`<text x="18" y="${margin.top}" fill="#9aa6a3" font-size="12">順位</text>`);
+      series.forEach(item => {
+        const path = item.points.map((point, index) => `${index === 0 ? 'M' : 'L'}${x(point.date)},${y(point.position)}`).join(' ');
+        svg.push(`<path d="${path}" fill="none" stroke="${item.color}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`);
+        item.points.forEach(point => {
+          svg.push(`<circle cx="${x(point.date)}" cy="${y(point.position)}" r="3.5" fill="${item.color}"><title>${escapeHtml(item.query)} / ${point.date}: ${point.position.toFixed(2)}</title></circle>`);
+        });
+      });
+      chart.innerHTML = svg.join('');
+      legend.innerHTML = series.map(item => (
+        `<span class="legend-item"><span class="swatch" style="background:${item.color}"></span><span>${escapeHtml(item.query)}</span></span>`
+      )).join('');
+    }
+
+    function renderAll() {
+      const site = siteSelect.value;
+      renderSummary(site);
+      renderTable(site);
+      renderChart(site);
+    }
+
+    setupSites();
+    renderAll();
+    siteSelect.addEventListener('change', renderAll);
+    document.querySelectorAll('.range').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.range').forEach(item => item.classList.remove('active'));
+        button.classList.add('active');
+        rangeDays = Number(button.dataset.days);
+        renderChart(siteSelect.value);
+      });
+    });
+    window.addEventListener('resize', () => renderChart(siteSelect.value));
+  </script>
+</body>
+</html>
